@@ -1,6 +1,7 @@
 # Ares-I · Análisis telemétrico y aerodinámico del lanzamiento de una sonda a Marte
 
 Proyecto de **Programación – Grado en Ingeniería Aeroespacial** (presentación oral, enunciado 6).
+Integrantes: Pablo Ruiz, Jon Recio, Beltrán Rodriguez, Fausto Rapisardi
 
 Dashboard interactivo en `matplotlib` que procesa la telemetría del vehículo Ares-I con métodos numéricos.
 Cada apartado se resuelve **primero con numpy** y **después con las funciones propias `my_`** de la
