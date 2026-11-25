@@ -1,6 +1,6 @@
 """
 =============================================================================
- src/gui.py
+ gui.py
  GRAPHICAL USER INTERFACE: gráficas y colores de cada apartado
  Proyecto Ares-I · Grado en Ingeniería Aeroespacial · Programación
 =============================================================================
@@ -17,7 +17,7 @@
 
 import numpy as np
 
-from .physics import (G0, TOLERANCIA, t_vuelo, v_vuelo, V_sensor, P_sensor,
+from physics import (G0, TOLERANCIA, t_vuelo, v_vuelo, V_sensor, P_sensor,
                       altitudes_tab, densidades_tab, velocidad_teorica)
 
 

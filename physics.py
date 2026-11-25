@@ -1,6 +1,6 @@
 """
 =============================================================================
- src/physics.py
+ physics.py
  FÍSICA DEL PROBLEMA: datos del Ares-I y resolución de los 6 apartados
  Proyecto Ares-I · Grado en Ingeniería Aeroespacial · Programación
 =============================================================================
@@ -22,25 +22,44 @@
 =============================================================================
 """
 
+import importlib.util
+import os
+
 import numpy as np
 
-from .math import (
-    # Apartado 1 - Sistemas lineales
-    np_sistema_lineal, my_gauss, my_lu, my_lu_solve, my_jacobi, my_gauss_seidel,
-    my_es_diagonal_dominante,
-    # Apartado 2 - Regresión lineal
-    np_regresion_lineal, my_linear_regression, my_r2,
-    # Apartado 3 - Integración
-    np_trapecio, my_trapecio, my_trapecio_acumulado, my_simpson,
-    # Apartado 4 - Interpolación
-    np_interp_lineal, np_polinomio_interpolante,
-    my_interp_lineal, my_vandermonde, my_polyval, my_lagrange,
-    # Apartado 5 - Derivación
-    np_derivada, my_derivada_centrada, my_derivada_adelantada, my_derivada_retrasada,
-    my_derivada_numerica,
-    # Apartado 6 - Ecuaciones no lineales
-    np_raiz_cambio_signo, my_newton, my_biseccion,
-)
+
+# --- Carga de math.py (biblioteca numérica del proyecto) ---------------------
+# math.py se llama igual que el módulo estándar "math" de Python, así que un
+# "import math" normal devolvería el de Python y no el nuestro. Por eso se
+# carga indicando su ruta exacta (la misma carpeta que este fichero).
+def _cargar_math_py():
+    ruta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "math.py")
+    spec = importlib.util.spec_from_file_location("math_proyecto", ruta)
+    modulo = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(modulo)
+    return modulo
+
+
+mt = _cargar_math_py()
+
+# Apartado 1 - Sistemas lineales
+np_sistema_lineal, my_gauss, my_lu, my_lu_solve = mt.np_sistema_lineal, mt.my_gauss, mt.my_lu, mt.my_lu_solve
+my_jacobi, my_gauss_seidel, my_es_diagonal_dominante = mt.my_jacobi, mt.my_gauss_seidel, mt.my_es_diagonal_dominante
+# Apartado 2 - Regresión lineal
+np_regresion_lineal, my_linear_regression, my_r2 = mt.np_regresion_lineal, mt.my_linear_regression, mt.my_r2
+# Apartado 3 - Integración
+np_trapecio, my_trapecio = mt.np_trapecio, mt.my_trapecio
+my_trapecio_acumulado, my_simpson = mt.my_trapecio_acumulado, mt.my_simpson
+# Apartado 4 - Interpolación
+np_interp_lineal, np_polinomio_interpolante = mt.np_interp_lineal, mt.np_polinomio_interpolante
+my_interp_lineal, my_vandermonde = mt.my_interp_lineal, mt.my_vandermonde
+my_polyval, my_lagrange = mt.my_polyval, mt.my_lagrange
+# Apartado 5 - Derivación
+np_derivada, my_derivada_centrada = mt.np_derivada, mt.my_derivada_centrada
+my_derivada_adelantada, my_derivada_retrasada = mt.my_derivada_adelantada, mt.my_derivada_retrasada
+my_derivada_numerica = mt.my_derivada_numerica
+# Apartado 6 - Ecuaciones no lineales
+np_raiz_cambio_signo, my_newton, my_biseccion = mt.np_raiz_cambio_signo, mt.my_newton, mt.my_biseccion
 
 
 # =============================================================================
