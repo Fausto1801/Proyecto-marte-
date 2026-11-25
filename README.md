@@ -19,28 +19,37 @@ Se imprime un informe por consola (cada resultado con sus unidades y su interpre
 única ventana interactiva: menú `RadioButtons` (apartados 1–6 + extra), panel de resultados numéricos y
 `Slider` de velocidad diana (300–1000 m/s) en el Apartado 6.
 
-## Estructura del repositorio
+## Organización: qué hace cada fichero
 
-| Fichero | Función |
+| Fichero | Qué contiene |
 |---|---|
-| `main.py` | Construye la interfaz gráfica: ventana, menú `RadioButtons`, `Slider` y panel de resultados |
-| `physics.py` | Apartados 1–6: datos del enunciado, un `def resolver_apartado_X` por apartado e informe por consola. Importa los métodos de `math.py` |
-| `math.py` | Funciones numéricas: para cada apartado, primero numpy (`np_`) y después las propias (`my_`) |
-| `gui.py` | Graphical user interface: una función `vista_apartado_X` por apartado con sus gráficas y colores |
+| `main.py` | **Construye la interfaz gráfica.** Es el fichero que se ejecuta: crea la ventana, el menú `RadioButtons`, el `Slider` y el panel de resultados, y los conecta con los cálculos |
+| `physics.py` | **Los apartados 1–6.** Datos del enunciado y un `def resolver_apartado_X` por apartado, que llama a las funciones de `maths.py`. También el informe por consola con la interpretación física |
+| `maths.py` | **Las funciones numéricas.** En cada apartado, primero la versión con numpy (`np_...`) y después las funciones propias (`my_...`) |
+| `gui.py` | **Graphical user interface: gráficas y colores.** Una función `vista_apartado_X` por apartado que dibuja sus gráficas |
 
-Flujo: `math.py` → `physics.py` → `gui.py` → `main.py`.
+Flujo: `maths.py` → `physics.py` → `gui.py` → `main.py`.
 
-Como `math.py` se llama igual que el módulo estándar `math` de Python, `main.py` carga primero el `math`
-de Python y `physics.py` carga `math.py` indicando su ruta (está explicado en los comentarios de ambos).
+## Dónde está cada apartado
 
-## Métodos por apartado
+| Apartado | `physics.py` (resolución) | `maths.py` – numpy | `maths.py` – funciones propias | `gui.py` (gráficas) |
+|---|---|---|---|---|
+| 1. Sistema lineal | `resolver_apartado_1` | `np_sistema_lineal` | `my_gauss`, `my_lu`, `my_jacobi`, `my_gauss_seidel` | `vista_apartado_1` |
+| 2. Regresión lineal | `resolver_apartado_2` | `np_regresion_lineal` | `my_linear_regression` | `vista_apartado_2` |
+| 3. Integración | `resolver_apartado_3` | `np_trapecio` | `my_trapecio`, `my_simpson`, `my_trapecio_acumulado` | `vista_apartado_3` |
+| 4. Interpolación | `resolver_apartado_4` | `np_interp_lineal`, `np_polinomio_interpolante` | `my_interp_lineal`, `my_vandermonde`, `my_lagrange` | `vista_apartado_4` |
+| 5. Derivación | `resolver_apartado_5` | `np_derivada` | `my_derivada_centrada`, `my_derivada_adelantada`, `my_derivada_retrasada`, `my_derivada_numerica` | `vista_apartado_5` |
+| 6. Ecuación no lineal | `resolver_apartado_6` | `np_raiz_cambio_signo` | `my_newton`, `my_biseccion` | `vista_apartado_6` |
+| Extra: Max Q | `resolver_extra_max_q` | — | — | `vista_extra` |
 
-| Apartado | numpy (`np_`) | Funciones propias (`my_`) | Resultado |
+## Resultados
+
+| Apartado | Método numpy | Funciones propias | Resultado |
 |---|---|---|---|
-| 1. Sistema lineal (masas de propelente) | `np.linalg.solve` | `my_gauss`, `my_lu`, `my_jacobi`, `my_gauss_seidel` | m = 21 666.7 / 10 833.3 / 17 500 kg |
-| 2. Regresión lineal (sensor Pitot) | `np.polyfit` | `my_linear_regression` | P = 21.11·V − 0.28 kPa (R² = 0.9999) |
-| 3. Integración (altitud) | `np.trapezoid` | `my_trapecio`, `my_simpson`, `my_trapecio_acumulado` | h(120 s) = 135.84 km |
-| 4. Interpolación (densidad) | `np.interp`, `np.polyfit` (Lagrange) | `my_interp_lineal`, `my_vandermonde`, `my_lagrange` | ρ(t) |
-| 5. Derivación (aceleración) | `np.gradient` (extremos de 2.º y de 1.er orden) | `my_derivada_centrada`, `my_derivada_adelantada`, `my_derivada_retrasada` (3 puntos), `my_derivada_numerica` | a_max = 31.24 m/s² = 3.19 g |
-| 6. Ecuación no lineal (Mach 1) | cambio de signo vectorizado | `my_newton`, `my_biseccion` | t_crit = 30.10 s |
+| 1. Sistema lineal (masas de propelente) | `np.linalg.solve` | Gauss, LU, Jacobi, Gauss-Seidel | m = 21 666.7 / 10 833.3 / 17 500 kg |
+| 2. Regresión lineal (sensor Pitot) | `np.polyfit` | Ecuación normal | P = 21.11·V − 0.28 kPa (R² = 0.9999) |
+| 3. Integración (altitud) | `np.trapezoid` | Trapecio, Simpson, trapecio acumulado | h(120 s) = 135.84 km |
+| 4. Interpolación (densidad) | `np.interp`, `np.polyfit` (Lagrange) | Lineal, Vandermonde, Lagrange | ρ(t) a lo largo del vuelo |
+| 5. Derivación (aceleración) | `np.gradient` | Diferencias finitas de 3 puntos: centradas, adelantadas y retrasadas | a_max = 31.24 m/s² = 3.19 g |
+| 6. Ecuación no lineal (Mach 1) | Cambio de signo vectorizado | Newton-Raphson, bisección | t_crit = 30.10 s |
 | Extra | — | — | Max Q = 78.6 kPa en t = 43 s |

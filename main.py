@@ -12,38 +12,23 @@
    main.py ....... construye la interfaz: ventana, menú RadioButtons,
                    Slider y panel de resultados (este fichero)
    physics.py .... datos del enunciado y resolución de los apartados 1-6
-                   (importa los métodos de math.py)
-   math.py ....... funciones numéricas: numpy (np_) y propias (my_)
+                   (importa los métodos de maths.py)
+   maths.py ...... funciones numéricas: numpy (np_) y propias (my_)
    gui.py ........ gráficas y colores de cada apartado
 
-   Flujo:  math.py  ->  physics.py  ->  gui.py  ->  main.py
+   Flujo:  maths.py  ->  physics.py  ->  gui.py  ->  main.py
 
  Ejecución:   python main.py
  Requisitos:  numpy >= 1.20, matplotlib >= 3.5
 =============================================================================
 """
 
-import os
-import sys
+import matplotlib.pyplot as plt
+from matplotlib.widgets import RadioButtons, Slider
 
-# --- Protección del módulo estándar "math" -----------------------------------
-# Nuestro math.py se llama igual que el módulo "math" de Python. Como Python
-# busca primero en la carpeta de main.py, numpy acabaría cargando NUESTRO
-# math.py en vez del suyo y fallaría. Para evitarlo se importa el "math"
-# estándar sin esta carpeta en la ruta de búsqueda; una vez cargado queda
-# guardado en memoria y numpy/matplotlib usan siempre el correcto.
-_CARPETA = os.path.dirname(os.path.realpath(__file__))
-_ruta_original = list(sys.path)
-sys.path[:] = [p for p in sys.path if os.path.realpath(p or os.curdir) != _CARPETA]
-import math  # noqa: E402,F401  (módulo estándar de Python)
-sys.path[:] = _ruta_original
-
-import matplotlib.pyplot as plt                       # noqa: E402
-from matplotlib.widgets import RadioButtons, Slider    # noqa: E402
-
-from physics import (calcular_todo, imprimir_informe, resolver_apartado_6,   # noqa: E402
+from physics import (calcular_todo, imprimir_informe, resolver_apartado_6,
                      V_TARGET_DEFECTO, V_TARGET_MIN, V_TARGET_MAX)
-from gui import COLOR, OPCIONES, INDICE_APARTADO_6, ZONA_GRAFICOS, VISTAS    # noqa: E402
+from gui import COLOR, OPCIONES, INDICE_APARTADO_6, ZONA_GRAFICOS, VISTAS
 
 
 def construir_interfaz(res):
@@ -98,7 +83,7 @@ def construir_interfaz(res):
 
 
 def main():
-    resultados = calcular_todo()          # physics.py (con los métodos de math.py)
+    resultados = calcular_todo()          # physics.py (con los métodos de maths.py)
     imprimir_informe(resultados)          # resultados + interpretación física
     fig, radio, slider = construir_interfaz(resultados)
     plt.show()

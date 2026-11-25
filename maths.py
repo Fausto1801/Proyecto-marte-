@@ -1,6 +1,6 @@
 """
 =============================================================================
- math.py
+ maths.py
  BIBLIOTECA DE MÉTODOS NUMÉRICOS: funciones de numpy (np_) y propias (my_)
  Proyecto Ares-I · Grado en Ingeniería Aeroespacial · Programación
 =============================================================================
@@ -49,9 +49,6 @@
  (avance de pivote en Gauss/LU, iteraciones de Jacobi/Gauss-Seidel/Newton/
  Bisección, grado del polinomio en Horner), que no se pueden vectorizar.
 
- Nota: este fichero se llama igual que el módulo estándar "math" de Python.
- Por eso main.py carga primero el "math" de Python y physics.py carga este
- fichero indicando su ruta (ver el comentario en cada uno).
 =============================================================================
 """
 
